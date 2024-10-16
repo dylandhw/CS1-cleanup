@@ -1,0 +1,20 @@
+#include <stdio.h>
+#include <stdlib.>
+
+Struct node{
+    int data;
+    int node* next;
+}
+
+void list42(struct node* head)[
+    struct node* current = head;
+    struct node* temp;
+    while(current != NULL){
+        if(current->data == 4){
+            temp = (struct node*)malloc(sizeof(struct node));
+            temp->data = 2;
+            temp->next = current->next;
+            current->next = temp;
+        }
+    }
+]

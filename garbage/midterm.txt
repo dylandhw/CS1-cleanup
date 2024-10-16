@@ -1,0 +1,100 @@
+Dynamic Memory Allocation
+    -Static vs Dynamic memory allocation, problem with VLA, malloc, calloc, realloc, free, memory leak
+    -Calloc v. Malloc 
+        -C: initializes to zero, takes num of elements & size of each
+        -M: doesn't initialize - contains garbage values, takes only size in bytes
+    -DMA for array of structs
+        -*arr = (Student*)malloc(size * sizeof(Student));
+    -Employee *employees = malloc(empCount * sizeof(Employee))
+    -employees[i].ename = malloc(sizeof(StringType))
+    -int length = strlen(name[i]+1)
+    employees[i].ename->string = malloc(length * sizeof(char));
+        -Free
+            free(employees[i].ename->string)
+            free(employees[i].ename)
+        free(employees)
+
+Linked List
+    -Singly LL
+        -IB: new->data = data; new->next = (*head); (*head) = new;
+        -IE: new->data = data; new->next = NULL; while(temp->next!=NULL){...}t->next = new;
+        -DF: temp = *head; *head = (*head)->next; free(temp);
+        -D: if(temp!=NULL&&temp->data==key){*head=temp->next; free(temp)}
+            while(temp!=NULL&&temp->data!=key){prev=temp; temp=temp->next}
+            prev->next = temp->next; free(temp);
+    -Doubly LL
+        -IB: new->data = data; new->next = (*head); new->prev = NULL'
+             if(*head!=NULL){(*head)->prev=new}(*head)=new;
+        -IE: new, last = *head; if(*head==NULL){new->prev=NULL; *head=new}
+             while(last->next!=NULL){last=last->next;} last->next = new; new->prev = last'
+        -D:  while(t->next != NULL && t->next->data!=key){t=t->next}temp = t->next;
+             t->next = t->next->next; if(t->next){t->next->prev = t; free(temp)}
+    -Circular LL
+        -Same as before, last node just now points to head instead of NULL
+
+Queues
+    -Array based implementation linear queue 
+        -E: qArr[rear] = add; rear++ if(rear < max);
+        -D: return qArr[front++]; if(rear != max);
+    -Circular Queue 
+        -E: if(q->noe != q->size); q->elements[(q->front+q->noe)%q->size] = value;
+            (q->noe)++:
+            q->elements = realloc(q->elements, (q->size)*sizeof(int)*2);
+            for(int i = 0; i < q->front-1; i++);
+            q->elements[i+q->size] = q->elements[i];
+            q->elements[i+q->size] = value; (q->size)*=2; (q->noe)++;
+        -D: if(q=>noe!=0); retval = q->elements[q->front];
+            q->front = (q->front+1)%q->size;
+            (q->noe)--; return retval;
+        -DP:
+            if(qPtr->front + qPtr->elements < qPtr->queueSize){
+            for(int i = qPtr->front; i < qPtr->front+qPtr->numElements; i++){
+                printf("%d ", qPtr->elements[i]);
+            }
+        } else {
+            for(int i = qPtr->front; i < qPtr->queueSize; i++){
+                printf("%d ", qPtr->elements[i]);
+            }
+            for(int i = 0; i < (qPtr->front + qPtr->numElements)%qPtr->queueSize; i++){
+                printf("NO VAL ");
+            }
+        }
+    -Queue & Linked List
+        -E: if(q->back == NULL){q->front = temp; q->back = temp;}
+           q->back->next = temp; q->back = temp;
+        -D: temp = q->front; int retval = temp->data; q->front = q->front->next;
+            if(q->front == NULL){q->back = NULL}; free(temp); return retval;
+
+Stacks
+    -Array based implementation
+        -Push: if(top >= size - 1){return}else{stack[++top]=value}
+        -Pop: if(top < 0){return}else{return stack[top]--};
+    -Linked List implementation
+        -Push: if(temp != NULL){temp->data = num; temp->next = *front; *front = temp;}
+        -Pop: if(*front != NULL){temp=*front; *front=(*front)->next; temp->next = NULL}
+        return temp;
+
+Recursion
+    -FastExp: if(e%2==0){return fastexp(b*b, e/2)}else{return fastexp(b*b, e/2)*b}
+    -TOH: if(n==1){print(move disk 1 from rod to rod)}
+          TOH(n-1, from, aux, to);
+          printf(move disk n from rod to rod)
+          TOH(n-1, aux, to, from);
+    -Remember for the base conversions its printing in reverse order
+
+BinarySearch
+    -while(l<=h)
+    -mid=(l+h)/2
+    if(list[mid]<item){l = mid + 1}
+    if(list[mid]>item){h = mid - 1}
+
+SLMP
+    -O(n^2)
+        -nested for loop
+        -if(list1[i] == list2[j])
+        -print matches
+    -O(n)
+        -while(i < n && j < m)
+        -if(list1[i] < list2[j]) i++
+        -reverse for j
+        -print matching number, increment both
